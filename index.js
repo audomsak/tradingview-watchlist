@@ -1,23 +1,27 @@
+'use strict';
+
+const { strict } = require("assert");
 const axios = require("axios");
 const fs = require("fs");
 const util = require("util");
 
+const isSectioned = true;
 const quote = "USDT";
 const getBinanceExchangeInfo = axios.get(
     "https://api.binance.com/api/v1/exchangeInfo"
 );
 const getCoinMarketCapList = axios.get(
     "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest", {
-        params: {
-            start: 1,
-            limit: 1500,
-            sort: "market_cap",
-            sort_dir: "desc"
-        },
-        headers: {
-            "X-CMC_PRO_API_KEY": process.env.CMC_API_KEY,
-        },
-    }
+    params: {
+        start: 1,
+        limit: 1500,
+        sort: "market_cap",
+        sort_dir: "desc"
+    },
+    headers: {
+        "X-CMC_PRO_API_KEY": process.env.CMC_API_KEY,
+    },
+}
 );
 
 // Start
@@ -63,19 +67,21 @@ function generateWatchlist(binanceExchangeInfo, coinMarketCapList) {
             continue;
         }
 
-        let section = util.format("###CoinMarketCap Ranks: %d-%d", i - 9, i);
-        watchlist.push(section);
+        if (isSectioned) {
+            let section = util.format("###CoinMarketCap Ranks: %d-%d", i - 9, i);
+            watchlist.push(section);
+        }
 
         coinPairs.sort((c1, c2) => c1.cmcRank - c2.cmcRank);
         coinPairs.forEach((c) => {
-            item = util.format("BINANCE:%s", c.symbol);
+            let item = util.format("BINANCE:%s", c.symbol);
             watchlist.push(item);
         });
     }
 
     //console.debug(watchlist);
 
-    fs.writeFileSync(getFilename(), watchlist.join(","));
+    fs.writeFileSync(getFilename(isSectioned), watchlist.join(","));
     console.info("Binance watchlist for Tradingview was generated successfully.")
 }
 
@@ -121,7 +127,7 @@ function getCoinPairs(binanceExchangeInfo, coinMarketCapList) {
         });
 }
 
-function getFilename() {
+function getFilename(isSectioned) {
     let date_ob = new Date();
     // current date
     // adjust 0 before single digit date
@@ -131,5 +137,6 @@ function getFilename() {
     // current year
     let year = date_ob.getFullYear();
 
-    return util.format("binance_watchlist_%s-%s-%s.txt", date, month, year);
+    return util.format("binance_watchlist_%s_%s-%s-%s.txt",
+        (isSectioned ? 'sectioned' : 'unsectioned'), date, month, year);
 }
