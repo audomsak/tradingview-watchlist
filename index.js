@@ -16,7 +16,7 @@ const getCoinMarketCapList = axios.get(
             sort_dir: "desc"
         },
         headers: {
-            "X-CMC_PRO_API_KEY": env.CMC_API_KEY,
+            "X-CMC_PRO_API_KEY": process.env.CMC_API_KEY,
         },
     }
 );
