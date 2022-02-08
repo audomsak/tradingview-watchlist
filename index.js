@@ -1,6 +1,5 @@
 const axios = require("axios");
 const fs = require("fs");
-const { env } = require("process");
 const util = require("util");
 
 const quote = "USDT";
