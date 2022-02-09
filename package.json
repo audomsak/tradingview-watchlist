@@ -1,19 +1,23 @@
 {
   "name": "tradingview-watchlist",
   "version": "1.0.0",
-  "description": "Tradingview watch list generator",
+  "description": "TradingView watchlist generator",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/audomsak/tradingview-watchlist.git"
-  },
   "author": "Audomsak Suksunti",
   "license": "",
+  "repository": {
+    "type": "https",
+    "url": "https://github.com/audomsak/tradingview-watchlist.git"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
   "bugs": {
     "url": "https://github.com/audomsak/tradingview-watchlist/issues"
   },
   "homepage": "https://github.com/audomsak/tradingview-watchlist#readme",
   "dependencies": {
-    "axios": "^0.25.0"
+    "axios": "^0.25.0",
+    "bottleneck": "^2.19.5"
   }
 }
