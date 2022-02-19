@@ -43,11 +43,12 @@ async function main() {
         "free plan has API call rate limit at 30 requests a minute.\n");
     console.info("Start generating watchlists for TradingView...\n");
 
-    // Create output directory
-    let dir = __dirname + "/output/categorized";
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, {recursive: true});
+    // Delete (if exists) and re-create output directory
+    let dir = __dirname + "/output";
+    if (fs.existsSync(dir)) {
+        fs.rmSync(dir, {recursive: true});
     }
+    fs.mkdirSync(dir, {recursive: true});
 
     await Promise.all([
         axios.get(binanceExchangeInfoUrl),
