@@ -48,7 +48,7 @@ async function main() {
     if (fs.existsSync(dir)) {
         fs.rmSync(dir, {recursive: true});
     }
-    fs.mkdirSync(dir, {recursive: true});
+    fs.mkdirSync(dir + "/categorized", {recursive: true});
 
     await Promise.all([
         axios.get(binanceExchangeInfoUrl),
