@@ -14,7 +14,7 @@ const limiter = new Bottleneck({
 
 const quote = "USDT"; // A coin to be used as a coin pair. Can be chaged to i.e. USD, BNB, BTC
 const isSectioningWithCmcRank = true;
-const cmcCoinListLimit = 1500; // Maximum rank to be retrieved from CoinMarketCap
+const cmcCoinListLimit = 3000; // Maximum rank to be retrieved from CoinMarketCap
 
 const date = new Date();
 const dateStr = util.format("%s-%s-%s", ("0" + date.getDate()).slice(-2),
@@ -76,8 +76,8 @@ async function main() {
                 console.info("1). Generating general watchlists...\n");
                 generateWatchlist(binanceExchangeInfoResp.data, cmcCryptoListingResp.data);
 
-                console.info("\n2). Generating watchlists for each category...\n")
-                generateCategorizedWatchlist(binanceExchangeInfoResp.data, cmcCryptoCategoriesResp.data);
+                //console.info("\n2). Generating watchlists for each category...\n")
+                //generateCategorizedWatchlist(binanceExchangeInfoResp.data, cmcCryptoCategoriesResp.data);
             } else {
                 console.error("Received unexpected responses.");
             }
@@ -227,8 +227,8 @@ function getCoinPairs(binanceExchangeInfo, coinMarketCapList) {
 }
 
 function getFilename(withSection) {
-    let section = withSection ? "with_section" : "without_section";
-    return util.format("%s/output/binance_watchlist_%s_on_%s.txt", __dirname, section, dateStr);
+    let section = withSection ? "section" : "unsectioned";
+    return util.format("%s/output/binance_%s_%s.txt", __dirname, section, dateStr);
 }
 
 function getCategorizedFilename(category) {
